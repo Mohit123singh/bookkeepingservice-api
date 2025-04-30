@@ -1,0 +1,42 @@
+[
+    {
+      "_id": "5d713995b721c3bb38c1f5d0",
+      "name": "Central City Library",
+      "description": "A major public library with thousands of books.",
+      "website": "https://centralcitylibrary.com",
+      "phone": "1234567890",
+      "email": "info@centralcitylibrary.com",
+      "address": "123 Main Street, Central City",
+      "user": "5d7a514b5d2c12c7449be042"
+    },
+    {
+      "_id": "5d713a66ec8f2b88b8f830b8",
+      "name": "Westend Community Library",
+      "description": "A local community library.",
+      "website": "https://westendlibrary.com",
+      "phone": "9876543210",
+      "email": "contact@westendlibrary.com",
+      "address": "45 West Street, Westend",
+      "user": "5c8a1d5b0190b214360dc033"
+    },
+    {
+      "_id": "5d725a037b292f5f8ceff787",   
+        "name": "Northside Knowledge Hub",
+        "description": "A modern library with study rooms, e-books, and event spaces.",
+        "website": "https://northsidehub.com",
+        "phone": "1122334455",
+        "email": "info@northsidehub.com",
+        "address": "789 Knowledge Avenue, Northside",
+        "user": "5c8a1d5b0190b214360dc034"
+      },
+      {
+        "_id": "5d725a1b7b292f5f8ceff788",   
+        "name": "Eastwood Public Library",
+        "description": "A vibrant library serving the Eastwood community with books and learning programs.",
+        "website": "https://eastwoodlibrary.com",
+        "phone": "6677889900",
+        "email": "support@eastwoodlibrary.com",
+        "address": "21 Book Lane, Eastwood",
+        "user": "5d7a514b5d2c12c7449be045"
+      }
+  ]

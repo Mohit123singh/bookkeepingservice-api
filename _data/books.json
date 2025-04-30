@@ -1,0 +1,44 @@
+[
+    {
+		"_id": "5d725a4a7b292f5f8ceff789",
+		"title": "The Art of Coding",
+		"description": "An essential guide to programming best practices.",
+		"cost": 499,
+		"library": "5d713995b721c3bb38c1f5d0",
+		"author": "5d7a514b5d2c12c7449be042",
+        "borrower":"5c8a1d5b0190b214360dc032",
+        "borrowedAt": "2025-04-01T10:00:00.000Z"
+	},
+
+    {
+		"_id": "5d725c84c4ded7bcb480eaa0",
+		"title": "Mastering JavaScript",
+		"description": "Deep dive into modern JavaScript concepts.",
+		"cost": 399,
+		"library": "5d713995b721c3bb38c1f5d0",
+		"author": "5c8a1d5b0190b214360dc035",
+        "borrower":"5c8a1d5b0190b214360dc037",
+        "borrowedAt": "2025-04-10T14:30:00.000Z"
+	},
+    {
+		"_id": "5d725ce8c4ded7bcb480eaa3",
+		"title": "Node.js for Beginners",
+		"description": "Learn backend development using Node.js.",
+		"cost": 299,
+		"library": "5d725a037b292f5f8ceff787",
+		"author": "5c8a1d5b0190b214360dc039",
+        "borrower":"5c8a1d5b0190b214360dc040",
+        "borrowedAt": "2025-04-10T14:30:00.000Z"
+	},
+
+    {
+		"_id": "5d725cfec4ded7bcb480eaa4",
+		"title": "Learn Android Development",
+		"description": "Learn android development using java.",
+		"cost": 399,
+		"library": "5d725a037b292f5f8ceff787",
+		"author": "5d7a514b5d2c12c7449be042",
+        "borrower":"5c8a1d5b0190b214360dc032",
+        "borrowedAt": "2025-04-10T14:30:00.000Z"
+	}
+]
