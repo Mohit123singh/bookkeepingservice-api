@@ -1,7 +1,8 @@
 const asyncHandler=require('express-async-handler')
 const ErrorResponse=require('../utils/errorResponse')
+const uploadToCloudinary = require('../utils/cloudinaryUpload');
 const Book=require('../models/Book');
-
+const path=require('path')
 
 
 
@@ -70,15 +71,17 @@ const getBook=asyncHandler(async(req,res,next)=>{
 // @route  POST /api/v1/books
 // @access Private
 const createBook=asyncHandler(async(req,res,next)=>{
-
   const __ = req.__.bind(req);
-    const book=await Book.create(req.body);
+  const book=await Book.create(req.body);
 
-        res.status(201).json({
-            success:true,
-            message: __('books.created'),
-            data:book
-        })
+      res.status(201).json({
+          success:true,
+          message: __('books.created'),
+          data:book
+      })
+  
+
+
 })
 
 
@@ -136,6 +139,39 @@ const deleteBook=asyncHandler(async(req,res,next)=>{
 
 
 
+// @desc   Upload Photo for book
+// @route  PUT /api/v1/books/:id/photo
+// @access Private
+const bookPhotoUpload=asyncHandler(async(req,res,next)=>{
+  const __ = req.__.bind(req);
+
+  const book=await Book.findById(req.params.id)
+  if(!book)
+  {
+    return next(new ErrorResponse(__('books.single_not_found', req.params.id), 404));
+  }
+  const file = req.file;
+  if (!file) {
+    return next(new ErrorResponse(__('file.file_missing'), 400));
+  }
+  
+  // Upload to Cloudinary (or any other cloud service)
+  const imageUrl = await uploadToCloudinary(file.data); // Send the file buffer
+  console.log(imageUrl)
+  
+  await Book.findByIdAndUpdate(req.params.id,{photo:file.name});
+  res.status(200).json({
+      success: true,
+      data: file.name
+  })
+
+  
+ 
+ 
+});
+
+
+
 
 module.exports={
     getBooks,
@@ -143,5 +179,5 @@ module.exports={
     createBook,
     updateBook,
     deleteBook,
-
+    bookPhotoUpload,
 }

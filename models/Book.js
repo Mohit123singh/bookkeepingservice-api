@@ -18,10 +18,10 @@ const bookSchema=new mongoose.Schema({
         required:[true,'Please add a book cost']
     },
 
-    image: {
+    photo: {
         type: String,
-       // required: [true, 'Please provide a book cover image URL'],
-      },
+        default: 'no-photo.jpg'
+     },
 
 
  

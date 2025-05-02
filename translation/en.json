@@ -41,5 +41,11 @@
       "invalid_credentials": "Invalid credentials",
       "register_success": "User registered successfully",
       "login_success": "User logged in successfully"
+    },
+    "file":{
+      "file_missing": "Please upload a file",
+      "file_invalid": "Please upload an image file",
+      "file_size": "Please upload an image less than {{maxSize}}",
+      "file_upload_problem": "Problem with the file upload"
     }
 }
