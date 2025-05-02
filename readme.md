@@ -27,8 +27,9 @@ npm run dev
 # Run in prod mode
 npm start
 
+```
 ## Features
-
+```
 - JWT-based authentication
 - Role-based access (Author, Borrower)
 - Cloud image upload support (Cloudinary)
