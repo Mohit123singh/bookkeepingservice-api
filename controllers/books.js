@@ -12,13 +12,15 @@ const Book=require('../models/Book');
 
 const getBooks=asyncHandler(async(req,res,next)=>{
 
+  const __ = req.__.bind(req); 
+
     const books=await Book.find().populate('author', 'name email')
     .populate('borrower', 'name email')
     .populate('library', 'name description');;
 
     if(books.length===0)
     {
-        return next(new ErrorResponse('No books found', 404));
+        return next(new ErrorResponse(__('books.not_found'), 404));
     }
 
     
@@ -38,6 +40,7 @@ const getBooks=asyncHandler(async(req,res,next)=>{
 
 
 const getBook=asyncHandler(async(req,res,next)=>{
+  const __ = req.__.bind(req);
 
     const book=await Book.findById(req.params.id).populate({
         path:'author',
@@ -50,8 +53,9 @@ const getBook=asyncHandler(async(req,res,next)=>{
         select:'name description'
     })
 
-    if(!book)
-        return next(new ErrorResponse(`No Book with the id of ${req.params.id}`,404))
+    if (!book) {
+    return next(new ErrorResponse(__('books.single_not_found', req.params.id), 404));
+  }
    
     res.status(200).json({
         success:true,
@@ -67,11 +71,12 @@ const getBook=asyncHandler(async(req,res,next)=>{
 // @access Private
 const createBook=asyncHandler(async(req,res,next)=>{
 
-    
+  const __ = req.__.bind(req);
     const book=await Book.create(req.body);
 
         res.status(201).json({
             success:true,
+            message: __('books.created'),
             data:book
         })
 })
@@ -81,13 +86,11 @@ const createBook=asyncHandler(async(req,res,next)=>{
 // @route  PUT /api/v1/book/:id
 // @access Private
 const updateBook=asyncHandler(async(req,res,next)=>{
-
+  const __ = req.__.bind(req);
     let book = await Book.findById(req.params.id);
 
     if (!book) {
-      return next(
-        new ErrorResponse(`Book not found with id: ${req.params.id}`, 404)
-      );
+      return next(new ErrorResponse(__('books.single_not_found', req.params.id), 404));
     }
 
     book = await Book.findByIdAndUpdate(
@@ -101,6 +104,7 @@ const updateBook=asyncHandler(async(req,res,next)=>{
     
       res.status(200).json({
         success: true,
+        message: __('books.updated'),
         data: book,
       });
    
@@ -110,20 +114,20 @@ const updateBook=asyncHandler(async(req,res,next)=>{
 // @route  DELETE /api/v1/book/:id
 // @access Private
 const deleteBook=asyncHandler(async(req,res,next)=>{
-   
+
+  const __ = req.__.bind(req);
    
     const book = await Book.findById(req.params.id);
 
     if (!book) {
-      return next(
-        new ErrorResponse(`Book not found with id: ${req.params.id}`, 404)
-      );
+      return next(new ErrorResponse(__('books.single_not_found', req.params.id), 404));
     }
 
      await Book.deleteOne();
     
       res.status(200).json({
         success: true,
+        message: __('books.deleted'),
         data: {},
       });
    

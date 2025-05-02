@@ -11,13 +11,12 @@ const Book=require('../models/Book')
 
 const getBooks=asyncHandler(async(req,res,next)=>{
 
-    
+  const __ = req.__.bind(req);
     const library = await Library.findById(req.params.id);
  
-    if (!library)
-      return next(
-        new ErrorResponse(`Library not found with ID of ${req.params.id}`, 404)
-      );
+    if (!library) {
+      return next(new ErrorResponse(__('inventory.library_not_found', { id: req.params.id }), 404));
+    }
       const books=await Book.find({library:req.params.id})
       return res.status(200).json({
         success:true,
@@ -38,10 +37,12 @@ const addBook=asyncHandler(async(req,res,next)=>{
      // add user to req.body
    //  req.body.user=req.user.id;
 
+   const __ = req.__.bind(req);
     const library=await Library.findById(req.params.id);
 
-    if(!library)
-        return next(new ErrorResponse(`No library with the id of ${req.params.id}`,404))
+    if (!library) {
+      return next(new ErrorResponse(__('inventory.library_not_found', { id: req.params.id }), 404));
+    }
    
     req.body.library=req.params.id;
 
@@ -49,6 +50,7 @@ const addBook=asyncHandler(async(req,res,next)=>{
 
     res.status(200).json({
         success:true,
+        message: __('inventory.book_added'),
         data:book
     })
     
@@ -62,16 +64,18 @@ const addBook=asyncHandler(async(req,res,next)=>{
 
 const deleteBook=asyncHandler(async(req,res,next)=>{
 
+  const __ = req.__.bind(req);
+
     const { id: libraryId, bookId } = req.params;
 
     const library = await Library.findById(libraryId);
-    if (!library) {
-      return next(new ErrorResponse(`No library found with ID: ${libraryId}`, 404));
-    }
+   if (!library) {
+    return next(new ErrorResponse(__('inventory.library_not_found', { id: libraryId }), 404));
+  }
   
     const book = await Book.findOne({ _id: bookId, library: libraryId });
     if (!book) {
-      return next(new ErrorResponse(`No book with ID ${bookId} found in this library`, 404));
+      return next(new ErrorResponse(__('inventory.book_not_found', { bookId }), 404));
     }
   
 
@@ -81,6 +85,7 @@ const deleteBook=asyncHandler(async(req,res,next)=>{
 
     res.status(200).json({
         success:true,
+        message: __('inventory.book_deleted'),
         data:{},
     })
 })

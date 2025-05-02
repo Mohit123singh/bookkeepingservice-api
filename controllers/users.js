@@ -7,7 +7,13 @@ const User=require('../models/User')
 // @route  POST /api/v1/users/register
 // @access Public
 const register=asyncHandler(async(req,res,next)=>{
-    const {name,email,password,role}=req.body;
+  
+ 
+    const {name,email,password,role,lang}=req.body;
+    req.setLocale(lang || 'en');
+    const __ = req.__.bind(req);
+
+  
 
     // Create user
     const user=await User.create({
@@ -15,9 +21,10 @@ const register=asyncHandler(async(req,res,next)=>{
         email,
         password,
         role,
+        lang :lang || 'en'
     })
 
-    sendTokenResponse(user,200,res);
+    sendTokenResponse(user, 200, res, __('auth.register_success'));
 })
 
 
@@ -27,32 +34,32 @@ const register=asyncHandler(async(req,res,next)=>{
 // @route  POST /api/v1/users/login
 // @access Public
 const login=asyncHandler(async(req,res,next)=>{
-    const {email,password}=req.body;
+  const { email, password ,lang} = req.body;
+
+  req.setLocale(lang || 'en');
+  const __ = req.__.bind(req);
 
    // Validate email & password
 
-   if(!email || !password)
-   {
-    return next(new ErrorResponse('Please provide an email and password',400));
-   }
+   if (!email || !password) {
+    return next(new ErrorResponse(__('auth.missing_credentials'), 400));
+  }
 
    // Check for user
    const user=await User.findOne({email}).select('+password');
 
-   if(!user)
-   {
-    return next(new ErrorResponse('Invalid credentials',401));    
-   }
+   if (!user) {
+    return next(new ErrorResponse(__('auth.invalid_credentials'), 401));
+  }
 
    // Check if password matches
    const isMatch=await user.matchPassword(password);
 
-   if(!isMatch)
-   {
-    return next(new ErrorResponse('Invalid credentials',401));    
-   }
+   if (!isMatch) {
+    return next(new ErrorResponse(__('auth.invalid_credentials'), 401));
+  }
     
-   sendTokenResponse(user,200,res);
+  sendTokenResponse(user, 200, res, __('auth.login_success'));
 })
 
 
@@ -60,7 +67,7 @@ const login=asyncHandler(async(req,res,next)=>{
 
 // Get token from model, create cookie and send response
 
-const sendTokenResponse=(user,statusCode,res)=>{
+const sendTokenResponse=(user,statusCode,res,message)=>{
 
     // create token
     const token=user.getSignedJwtToken()
@@ -82,6 +89,7 @@ const sendTokenResponse=(user,statusCode,res)=>{
     .cookie('token', token, options)
     .json({
       success: true,
+      message,
       token,
     });
 }

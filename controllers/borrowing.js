@@ -11,28 +11,30 @@ const Book=require('../models/Book');
 
 const borrowBook=asyncHandler(async(req,res,next)=>{
 
+  const __ = req.__.bind(req);
+
     const {title, charge } = req.body;
 
-  if (!title || !charge) {
-    return next(new ErrorResponse('Please add bookId and charge', 400));
-  }
+    if (!title || !charge) {
+      return next(new ErrorResponse(__('borrow.missing_fields'), 400));
+    }
 
   const book = await Book.findOne({title});
 
   if (!book) {
-    return next(new ErrorResponse('Book not found', 404));
+    return next(new ErrorResponse(__('borrow.not_found'), 404));
   }
 
-  // Check if the book is already borrowed
+   // Check if the book is already borrowed
   if (book.borrower) {
-    return next(new ErrorResponse('Book is already borrowed', 400));
+    return next(new ErrorResponse(__('borrow.already_borrowed'), 400));
   }
 
   // Calculate required charge (half of cost)
   const requiredCharge = Math.ceil(book.cost / 2);
 
   if (charge < requiredCharge) {
-    return next(new ErrorResponse(`Insufficient amount. Required: ${requiredCharge}`, 400));
+    return next(new ErrorResponse(__('borrow.insufficient_charge', { amount: requiredCharge }), 400));
   }
 
   // Borrow the book
@@ -43,6 +45,7 @@ const borrowBook=asyncHandler(async(req,res,next)=>{
 
   res.status(200).json({
     success: true,
+    message: __('borrow.success'),
     data: book,
   });
 })
@@ -56,16 +59,16 @@ const borrowBook=asyncHandler(async(req,res,next)=>{
 
 const returnBook=asyncHandler(async(req,res,next)=>{
 
-
+  const __ = req.__.bind(req);
   const book = await Book.findById(req.params.id);
 
   if (!book) {
-    return next(new ErrorResponse('Book not found', 404));
+    return next(new ErrorResponse(__('return.not_found'), 404));
   }
 
   // Check if current user is the one who borrowed it
   if (!book.borrower || book.borrower.toString() !== req.user.id) {
-    return next(new ErrorResponse('You have not borrowed this book', 403));
+    return next(new ErrorResponse(__('return.unauthorized'), 403));
   }
 
   // Reset borrower and borrowedAt
@@ -76,6 +79,7 @@ const returnBook=asyncHandler(async(req,res,next)=>{
 
   res.status(200).json({
     success: true,
+    message: __('return.success'),
     data: book,
   });
 })

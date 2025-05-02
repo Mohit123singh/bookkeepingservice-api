@@ -5,12 +5,14 @@ const jwt=require('jsonwebtoken');
 const userSchema=new mongoose.Schema({
     name:{
         type:String,
-        required:[true,'Please add a name']
+        required:[true,'Please add a name'],
+        trim: true
     },
     email: {
         type: String,
         required:[true,'Please add an email'],
         unique:true,
+        trim: true,
         match: [
            /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
            'Please add a valid email'
@@ -27,6 +29,11 @@ const userSchema=new mongoose.Schema({
         minlength:6,
         select:false,
      },
+     lang: {
+        type: String,
+        enum: ['en', 'hi'],
+        default:'en'
+      },
 },{
     timestamps:true,
 })
@@ -45,7 +52,7 @@ userSchema.pre('save',async function(next){
 
 // Sign JWT and return 
 userSchema.methods.getSignedJwtToken=function(){
-return jwt.sign({id:this._id},process.env.JWT_SECRET,{
+return jwt.sign({id:this._id,lang: this.lang},process.env.JWT_SECRET,{
     expiresIn:process.env.JWT_EXPIRE
 });
 };

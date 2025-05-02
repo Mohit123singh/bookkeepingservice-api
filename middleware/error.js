@@ -3,13 +3,19 @@ const errorHandler=(err,req,res,next)=>{
 
     let error={...err};
     error.message=err.message;
+
+    // Set the locale from request
+     const __ = req.__.bind(req); // i18n translator
+    //const __ = typeof req.__ === 'function' ? req.__.bind(req) : (key) => key;
+ 
+
    //Log to the console for dev
    console.log(err);
 
    //Mongoose bad ObjectId
    if(err.name==='CastError')
    {
-        const message=`Resource not found`;
+    const message = __('errors.not_found');
         error=new ErrorResponse(message,404);
         
    }
@@ -18,7 +24,7 @@ const errorHandler=(err,req,res,next)=>{
 
    if(err.code===11000)
    {
-     const message='Duplicate field Value Entered';
+    const message = __('errors.duplicate_field');
      error=new ErrorResponse(message,400);
    }
 
@@ -31,7 +37,7 @@ const errorHandler=(err,req,res,next)=>{
 
    res.status(error.statusCode || 500).json({
     success:false,
-    error:  error.message || 'Server-Error'
+    error:  error.message ||__('errors.server_error'),
    })
 }
 module.exports=errorHandler;

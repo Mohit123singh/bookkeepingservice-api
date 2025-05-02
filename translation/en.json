@@ -1,0 +1,45 @@
+{
+    "errors": {
+      "not_found": "Resource not found",
+      "duplicate_field": "Duplicate field value entered",
+      "server_error": "Server Error"
+    },
+    "books": {
+      "not_found": "No books found",
+      "single_not_found": "No book found with id: %s",
+      "created": "Book created successfully",
+      "updated": "Book updated successfully",
+      "deleted": "Book deleted successfully"
+    },
+    "borrow": {
+      "missing_fields": "Please add title and charge",
+      "not_found": "Book not found",
+      "already_borrowed": "Book is already borrowed",
+      "insufficient_charge": "Insufficient amount. Required: {{amount}}",
+      "success": "Book borrowed successfully"
+    },
+    "return": {
+      "not_found": "Book not found",
+      "unauthorized": "You have not borrowed this book",
+      "success": "Book returned successfully"
+    },
+    "library": {
+      "not_found_all": "No library found",
+      "not_found_single": "No Library with the id of {{id}}",
+      "created": "Library created successfully",
+      "updated": "Library updated successfully",
+      "deleted": "Library deleted successfully"
+    },
+    "inventory": {
+      "library_not_found": "Library not found with ID of {{id}}",
+      "book_not_found": "No book with ID {{bookId}} found in this library",
+      "book_added": "Book added successfully to the library",
+      "book_deleted": "Book deleted successfully from the library"
+    },
+    "auth": {
+      "missing_credentials": "Please provide an email and password",
+      "invalid_credentials": "Invalid credentials",
+      "register_success": "User registered successfully",
+      "login_success": "User logged in successfully"
+    }
+}

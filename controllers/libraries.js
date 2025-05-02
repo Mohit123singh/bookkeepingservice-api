@@ -8,12 +8,13 @@ const Library=require('../models/Library')
 // @access Public
 const getLibraries=asyncHandler(async(req,res,next)=>{
 
+  const __ = req.__.bind(req);
+
     const libraries=await Library.find();
 
-    if(libraries.length===0)
-    {
-        return next(new ErrorResponse('No library found', 404));
-    }
+    if (libraries.length === 0) {
+    return next(new ErrorResponse(__('library.not_found_all'), 404));
+  }
 
     
 
@@ -30,7 +31,7 @@ const getLibraries=asyncHandler(async(req,res,next)=>{
 // @route  GET /api/v1/libraries/:id
 // @access Public
 const getLibrary=asyncHandler(async(req,res,next)=>{
-
+  const __ = req.__.bind(req);
     const library=await Library.findById(req.params.id).populate({
         path:'books',
         select:'title description borrower',
@@ -40,8 +41,9 @@ const getLibrary=asyncHandler(async(req,res,next)=>{
           },
     })
 
-    if(!library)
-        return next(new ErrorResponse(`No Library with the id of ${req.params.id}`,404))
+    if (!library) {
+      return next(new ErrorResponse(__('library.not_found_single', { id: req.params.id }), 404));
+    }
    
     res.status(200).json({
         success:true,
@@ -58,6 +60,7 @@ const getLibrary=asyncHandler(async(req,res,next)=>{
 
 const addLibrary=asyncHandler(async(req,res,next)=>{
 
+  const __ = req.__.bind(req);
       // add user to req.body
       req.body.user=req.user.id;
 
@@ -65,6 +68,7 @@ const addLibrary=asyncHandler(async(req,res,next)=>{
 
         res.status(201).json({
             success:true,
+            message: __('library.created'),
             data:library
         })
 })
@@ -74,13 +78,11 @@ const addLibrary=asyncHandler(async(req,res,next)=>{
 // @route  PUT /api/v1/library/:id
 // @access Private
 const updateLibrary=asyncHandler(async(req,res,next)=>{
-
+  const __ = req.__.bind(req);
     let library = await Library.findById(req.params.id);
 
     if (!library) {
-      return next(
-        new ErrorResponse(`Library not found with id: ${req.params.id}`, 404)
-      );
+      return next(new ErrorResponse(__('library.not_found_single', { id: req.params.id }), 404));
     }
 
     library = await Library.findByIdAndUpdate(
@@ -94,6 +96,7 @@ const updateLibrary=asyncHandler(async(req,res,next)=>{
     
       res.status(200).json({
         success: true,
+        message: __('library.updated'),
         data: library,
       });
    
@@ -104,19 +107,19 @@ const updateLibrary=asyncHandler(async(req,res,next)=>{
 // @access Private
 const deleteLibrary=asyncHandler(async(req,res,next)=>{
    
-   
+  const __ = req.__.bind(req);
     const library = await Library.findById(req.params.id);
 
     if (!library) {
-      return next(
-        new ErrorResponse(`Library not found with id: ${req.params.id}`, 404)
-      );
+      return next(new ErrorResponse(__('library.not_found_single', { id: req.params.id }), 404));
     }
+  
 
      await library.deleteOne();
     
       res.status(200).json({
         success: true,
+        message: __('library.deleted'),
         data: {},
       });
    

@@ -11,6 +11,7 @@ const hpp=require('hpp');
 const cors=require('cors');
 
 const connectDB=require('./config/db')
+const i18n = require('./utils/i18n');
 const notFound=require('./middleware/notFound')
 const errorHandler=require('./middleware/error')
 
@@ -46,6 +47,9 @@ app.use(express.urlencoded({extended:false}))
 // Cookie parser
 app.use(cookieParser())
 
+// Enable i18n on every request
+app.use(i18n.init);
+
 // Dev logging middleware
 if(process.env.NODE_ENV==='development')
 {
@@ -54,23 +58,23 @@ if(process.env.NODE_ENV==='development')
 
 
 // Sanitize data
-app.use(mongoSanitize());
+//app.use(mongoSanitize());
 
 // set security headers
-app.use(helmet({ contentSecurityPolicy: false }));
+//app.use(helmet({ contentSecurityPolicy: false }));
 
 // Prevent XSS attacks
-app.use(xss());
+//app.use(xss());
 
 // Rate limiting
 const limiter = rateLimit({
     windowMs: 10 * 60 * 1000, // 10 minutes
     max: 100, // limit each IP to 100 requests per windowMs
   });
-app.use(limiter);
+//app.use(limiter);
 
 // Prevent http param pollution
-app.use(hpp())
+//app.use(hpp())
 
 //Enable CORS
 
