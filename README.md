@@ -70,7 +70,6 @@ A multilingual, role-based authenticated RESTful API built with **Node.js**, **E
 | POST   | /api/books             | Create new book                            |
 | PUT    | /api/books/:id         | Update book by ID                          |
 | DELETE | /api/books/:id         | Delete book by ID                          |
-
 | PUT | /api/books/:id/photo      | Upload photo of book by ID                 |
 ---
 
