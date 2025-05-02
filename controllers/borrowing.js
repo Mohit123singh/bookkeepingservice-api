@@ -30,6 +30,8 @@ const borrowBook=asyncHandler(async(req,res,next)=>{
     return next(new ErrorResponse(__('borrow.already_borrowed'), 400));
   }
 
+
+
   // Calculate required charge (half of cost)
   const requiredCharge = Math.ceil(book.cost / 2);
 
