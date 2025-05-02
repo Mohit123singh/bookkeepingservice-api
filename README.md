@@ -7,7 +7,7 @@ A multilingual, role-based authenticated RESTful API built with **Node.js**, **E
 ## 🚀 Features
 
 - JWT-based authentication
-- Role-based access (Author, Borrower)
+- Role-based access (author, borrower,admin,owner)
 - Cloud image upload support (Cloudinary)
 - Multilingual responses (English & Hindi)
 - Library-level book inventory management
