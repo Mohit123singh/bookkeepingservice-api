@@ -40,7 +40,9 @@
       "missing_credentials": "Please provide an email and password",
       "invalid_credentials": "Invalid credentials",
       "register_success": "User registered successfully",
-      "login_success": "User logged in successfully"
+      "login_success": "User logged in successfully",
+      "unauthorized": "You are not authorized to access this resource.",
+    "role_not_authorized": "User role {{role}} is not authorized to access this route."
     },
     "file":{
       "file_missing": "Please upload a file",

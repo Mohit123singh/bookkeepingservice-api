@@ -43,6 +43,21 @@ const protect=asyncHandler(async(req,res,next)=>{
 
 })
 
+
+
+
+// Grant access to specific roles
+
+const authorize = (...roles) => (req, res, next) => {
+    const __ = req.__.bind(req);
+    if (!roles.includes(req.user.role)) {
+        return next(new ErrorResponse(__('auth.role_not_authorized', { role: req.user?.role || 'unknown' }), 403));
+    }
+   
+    return next();
+};
+
 module.exports={
     protect,
+    authorize,
 }
