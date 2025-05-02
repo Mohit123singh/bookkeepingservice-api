@@ -6,7 +6,8 @@ i18n.configure({
   directory: path.join(__dirname, '../translation'),
   defaultLocale: 'en',
   queryParameter: 'lang',
-  objectNotation: true
+  objectNotation: true,
+  autoReload: true,
 });
 
 module.exports = i18n;

@@ -1,7 +1,8 @@
 const notFound=(req,res,next)=>{
-    const error=new Error('Not Found');
-    error.status=404;
-    next(error)
+    const __ = req.__.bind(req); 
+    const error = new Error(__('errors.not_found'));
+    error.status = 404;
+    next(error);
 }
 
 module.exports=notFound;
